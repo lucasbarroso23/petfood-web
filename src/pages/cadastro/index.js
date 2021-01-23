@@ -40,7 +40,7 @@ const Cadastro = () => {
               placeholder="Data de nascimento"
             />
             <button className="btn btn-lg btn-block btn-secondary">
-              Finalizar pedido
+              Finalizar pedido teste
             </button>
           </div>
         </div>
