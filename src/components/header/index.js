@@ -1,6 +1,8 @@
 import LogoWHite from "../../assets/logo-white.png";
 import Logo from "../../assets/logo.png";
 
+import {Link} from 'react-router-dom';
+
 import "./styles.css";
 
 const Header = ({ whiteVersion, hideCart }) => {
@@ -11,7 +13,9 @@ const Header = ({ whiteVersion, hideCart }) => {
   return (
     <div className="col-12">
       <header className="py-4 px-4 text-center">
-        <img src={whiteVersion ? LogoWHite : Logo} alt="" />
+        <Link to="/">
+          <img src={whiteVersion ? LogoWHite : Logo} alt="" />
+        </Link>        
       </header>
       {!hideCart && (
         <button

@@ -1,16 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Cadastro from "./pages/cadastro";
-import Checkout from "./pages/checkout";
-import Petshop from './pages/petshop';
-import SideBar from './components/sidebar';
 
-import "./styles/global.css";
+import Routes from './routes';
 
 ReactDOM.render(
   <React.StrictMode>
-    <SideBar />
-    <Petshop />
+    <Routes />
   </React.StrictMode>,
   document.getElementById("root") 
 );
