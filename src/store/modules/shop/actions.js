@@ -19,3 +19,17 @@ export function setPetshops(petshops) {
     petshops
   };
 }
+
+export function setPetshopsMapSelected(petshop) {
+  return {
+    type: types.SET_PETSHOP_MAP_SELECTED,
+    petshop
+  };
+}
+
+export function setMapCenter(location) {
+  return {
+    type: types.SET_MAP_CENTER,
+    location
+  };
+}

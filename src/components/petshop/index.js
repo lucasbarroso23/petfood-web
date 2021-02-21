@@ -1,18 +1,34 @@
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setPetshopsMapSelected,
+  setMapCenter,
+} from "../../store/modules/shop/actions";
+
 import "./styles.css";
 
-const Petshop = () => {
+const Petshop = ({ petshop }) => {
+  const dispath = useDispatch();
+  const { petshopMapSelected } = useSelector((state) => state.shop);
+
+  const setSelectedPetshop = () => {
+    //setar a petshop selecionada e settar o centro do mapa
+    dispath(setPetshopsMapSelected(petshop._id));
+    dispath(setMapCenter(petshop.location));
+  };
+
   return (
-    <li className="petshop d-inline-block">
+    <li
+      className={`petshop d-inline-block ${
+        petshopMapSelected === petshop._id ? 'active' : ''
+      }`}
+      onClick={() => setSelectedPetshop()}
+    >
       <div className="d-inline-block">
-        <img
-          src="https://avatars.githubusercontent.com/u/4692034?s=400&v=4"
-          alt="petlove logo"
-          className="img-fluid"
-        />
+        <img src={petshop.logo} alt="petlove logo" className="img-fluid" />
       </div>
 
       <div className="d-inline-block pl-3 align-botton">
-        <b>Petlove</b>
+        <b>{petshop.nome}</b>
         <div className="petshop-infos">
           <span className="mdi mdi-star"></span>
           <text>
