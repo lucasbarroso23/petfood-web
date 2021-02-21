@@ -1,10 +1,20 @@
-import './styles.css';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { requestPetshops } from '../../store/modules/shop/actions';
 
 import Header from '../../components/header';
 import Petshop from '../../components/petshop';
 import Map from '../../components/map';
 
+import './styles.css';
+
 const Home = () => {
+  const dispath = useDispatch();
+
+  useEffect(() => {
+    dispath(requestPetshops());
+  }, [])
+
   return (
     <div className="h-100">
       <Header />

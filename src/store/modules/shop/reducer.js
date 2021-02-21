@@ -3,6 +3,7 @@ import types from './types';
 
 const INITIAL_STATE = {
   customer: {},
+  petshops: [],
 }
 
 function shop (state = INITIAL_STATE, action) {
@@ -11,7 +12,13 @@ function shop (state = INITIAL_STATE, action) {
           return produce(state, (draft) => {
             draft.customer = action.customer;
           })
-        }      
+        }   
+        
+        case types.SET_PETSHOPS: {
+          return produce(state, (draft) => {
+            draft.petshops = action.petshops;
+          })
+        }   
     
         default:
             return state;
