@@ -16,20 +16,34 @@ export function requestPetshops() {
 export function setPetshops(petshops) {
   return {
     type: types.SET_PETSHOPS,
-    petshops
+    petshops,
   };
 }
 
 export function setPetshopsMapSelected(petshop) {
   return {
     type: types.SET_PETSHOP_MAP_SELECTED,
-    petshop
+    petshop,
   };
 }
 
 export function setMapCenter(location) {
   return {
     type: types.SET_MAP_CENTER,
-    location
+    location,
+  };
+}
+
+export function requestPetshop(id) {
+  return {
+    type: types.REQUEST_PETSHOP,
+    id,
+  };
+}
+
+export function setPetshop(petshop) {
+  return {
+    type: types.SET_PETSHOP,
+    petshop,
   };
 }

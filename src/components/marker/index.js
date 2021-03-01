@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux";
+import { Link } from 'react-router-dom';
 
 import MarkerIcon from "../../assets/marker.png";
 import MarkerIconSelected from "../../assets/marker-selected.png";
@@ -9,7 +10,7 @@ const Marker = ({ petshop }) => {
   const { petshopMapSelected } = useSelector((state) => state.shop);
 
   return (
-    <div>
+    <Link to={`/petshop/${petshop._id}`}>
       <img
         src={
           petshopMapSelected === petshop._id ? MarkerIconSelected : MarkerIcon
@@ -21,7 +22,7 @@ const Marker = ({ petshop }) => {
         alt="petlove logo"
         className="img-fluid img-marker"
       />
-    </div>
+    </Link>
   );
 };
 
