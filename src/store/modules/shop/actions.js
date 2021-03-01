@@ -47,3 +47,10 @@ export function setPetshop(petshop) {
     petshop,
   };
 }
+
+export function toggleCartProduct(product) {
+  return {
+    type: types.TOGGLE_CART_PRODUCT,
+    product,
+  };
+}

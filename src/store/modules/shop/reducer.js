@@ -10,6 +10,7 @@ const INITIAL_STATE = {
     lng: -46.625378,
   },
   petshop: {},
+  cart: [],
 };
 
 function shop(state = INITIAL_STATE, action) {
@@ -41,6 +42,17 @@ function shop(state = INITIAL_STATE, action) {
     case types.SET_PETSHOP: {
       return produce(state, (draft) => {
         draft.petshop = action.petshop;
+      });
+    }
+
+    case types.TOGGLE_CART_PRODUCT: {
+      return produce(state, (draft) => {
+        const index = draft.cart.findIndex(p => p._id === action.product._id)
+        if(index !== -1){
+          draft.cart.splice(index, 1);
+        } else {
+          draft.cart.push(action.product);
+        }
       });
     }
 

@@ -46,7 +46,7 @@ const Petshop = ({ match }) => {
             <h5>Produtos</h5>
             <br/>
             <div className="row">
-              {petshop.products.map(p => <Product product={p}/>)}
+              {petshop.products?.map(p => <Product product={p}/>)}
             </div>
           </div>
         </div>
