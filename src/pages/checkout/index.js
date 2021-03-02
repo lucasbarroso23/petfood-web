@@ -1,9 +1,80 @@
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+
 import Header from "../../components/header";
 import Product from "../../components/product/list";
+import dayjs from "dayjs";
 
 import "./styles.css";
 
 const Checkout = () => {
+  const { cart } = useSelector((state) => state.shop);
+
+  const total = cart.reduce((total, product) => {
+    return total + product.preco;
+  }, 0);
+
+  const [transaction, setTransaction] = useState({
+    amount: 0,
+    card_number: "",
+    card_cvv: "",
+    card_expiration_date: "",
+    card_holder_name: "",
+    shipping: {
+      name: "Petfood LTDA",
+      fee: 1000,
+      delivery_date: dayjs().add(7, "days").format("YYYY-MM-DD"),
+      expedited: true,
+      address: {
+        country: "br",
+        state: "",
+        city: "",
+        neighborhood: "",
+        street: "",
+        street_number: "",
+        zipcode: "",
+      },
+    },
+    items: [],
+    split_rules: [],
+  });
+
+  const setShippingValue = ({ key, value }) => {
+    setTransaction({
+      ...transaction,
+      shipping: {
+        ...transaction.shipping,
+        address: {
+          ...transaction.shipping.address,
+          [key]: value,
+        },
+      },
+    });
+  };
+
+  const makePurchase = () => {
+    console.log(transaction);
+  };
+
+  const getSplitRules = () => {};
+
+  useEffect(() => {
+    //UPDATE AMOUNT
+    //UPDATE ITEMS
+    setTransaction({
+      ...transaction,
+      amount: total?.toFixed(2).toString().replace(".", ""),
+      items: cart.map((product) => ({
+        id: product._id,
+        title: product.nome,
+        unit_price: product.preco.toFixed(2).toString().replace(".", ""),
+        quantity: 1,
+        tangible: true,
+      })),
+      split_rules: getSplitRules(),
+    });
+  }, [total]);
+
   return (
     <div className="h-100">
       <Header hideCart />
@@ -17,6 +88,7 @@ const Checkout = () => {
                   type="text"
                   placeholder="CEP"
                   className="form-control form-control-lg"
+                  onChange={(e) => setShippingValue("zipcode", e.target.value)}
                 />
               </div>
             </div>
@@ -26,6 +98,7 @@ const Checkout = () => {
                   type="text"
                   placeholder="Cidade"
                   className="form-control form-control-lg"
+                  onChange={(e) => setShippingValue("city", e.target.value)}
                 />
               </div>
               <div className="col-6 pl-0">
@@ -33,6 +106,7 @@ const Checkout = () => {
                   type="text"
                   placeholder="Logradouro"
                   className="form-control form-control-lg"
+                  onChange={(e) => setShippingValue("street", e.target.value)}
                 />
               </div>
             </div>
@@ -42,6 +116,9 @@ const Checkout = () => {
                   type="text"
                   placeholder="Número"
                   className="form-control form-control-lg"
+                  onChange={(e) =>
+                    setShippingValue("street_number", e.target.value)
+                  }
                 />
               </div>
               <div className="col-5 pl-0">
@@ -49,6 +126,9 @@ const Checkout = () => {
                   type="text"
                   placeholder="Bairro"
                   className="form-control form-control-lg"
+                  onChange={(e) =>
+                    setShippingValue("neighborhood", e.target.value)
+                  }
                 />
               </div>
               <div className="col-2 pl-0">
@@ -56,26 +136,52 @@ const Checkout = () => {
                   type="text"
                   placeholder="UF"
                   className="form-control form-control-lg"
+                  onChange={(e) => setShippingValue("state", e.target.value)}
                 />
               </div>
             </div>
 
             <span className="section-title">Dados de Entrega</span>
             <div className="row mb-3">
-              <div className="col-12">
+              <div className="col-6">
                 <input
                   type="text"
                   placeholder="Número do cartão"
                   className="form-control form-control-lg"
+                  onChange={(e) =>
+                    setTransaction({
+                      ...transaction,
+                      card_number: e.target.value,
+                    })
+                  }
+                />
+              </div>
+              <div className="col-6 pl-0">
+                <input
+                  type="text"
+                  placeholder="Nome no cartão"
+                  className="form-control form-control-lg"
+                  onChange={(e) =>
+                    setTransaction({
+                      ...transaction,
+                      card_holder_name: e.target.value,
+                    })
+                  }
                 />
               </div>
             </div>
             <div className="row mb-3">
               <div className="col-6">
                 <input
-                  type="text"
+                  type="date"
                   placeholder="Validade"
                   className="form-control form-control-lg"
+                  onChange={(e) =>
+                    setTransaction({
+                      ...transaction,
+                      card_expiration_date: e.target.value,
+                    })
+                  }
                 />
               </div>
               <div className="col-6 pl-0">
@@ -83,6 +189,12 @@ const Checkout = () => {
                   type="text"
                   placeholder="CVV"
                   className="form-control form-control-lg"
+                  onChange={(e) =>
+                    setTransaction({
+                      ...transaction,
+                      card_cvv: e.target.value,
+                    })
+                  }
                 />
               </div>
             </div>
@@ -90,21 +202,24 @@ const Checkout = () => {
             <div className="row mt-4">
               <div className="col-12 d-flex justify-content-between align-items-center">
                 <b>Total</b>
-                <h3>R$ 30,00</h3>
+                <h3>R$ {total.toFixed(2)}</h3>
               </div>
               <div className="col-12">
-                <button className="btn btn-block btn-lg btn-primary">
+                <button
+                  onClick={() => makePurchase()}
+                  className="btn btn-block btn-lg btn-primary"
+                >
                   Finalizar compra
                 </button>
               </div>
             </div>
           </div>
           <div className="box col mb-4 box-sidebar">
-            <h4>Minha Sacola(4)</h4>            
+            <h4>Minha Sacola({cart.length})</h4>
             <div className="row products">
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((p) => (
-              <Product />
-            ))}
+              {cart.map((p) => (
+                <Product product={p} />
+              ))}
             </div>
           </div>
         </div>
