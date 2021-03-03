@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import _ from "underscore";
 
 import Header from "../../components/header";
 import Product from "../../components/product/list";
@@ -56,7 +57,11 @@ const Checkout = () => {
     console.log(transaction);
   };
 
-  const getSplitRules = () => {};
+  const getSplitRules = () => {
+    const productsByPetshop = _.groupBy(cart, (product) => product.petshop_id);
+    console.log(productsByPetshop);
+    return productsByPetshop;
+  };
 
   useEffect(() => {
     //UPDATE AMOUNT
