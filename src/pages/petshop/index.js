@@ -1,22 +1,20 @@
-import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
-import { requestPetshop } from '../../store/modules/shop/actions';
- 
+import { requestPetshop } from "../../store/modules/shop/actions";
+
 import Header from "../../components/header";
-import Product from '../../components/product/card';
+import Product from "../../components/product/card";
 
-import './styles.css';
+import "./styles.css";
 
 const Petshop = ({ match }) => {
   const dispatch = useDispatch();
   const { petshop } = useSelector((state) => state.shop);
-  console.log(petshop.products)
 
   useEffect(() => {
     dispatch(requestPetshop(match.params.id));
-  }, [])
-
+  }, []);
 
   return (
     <div className="h-100">
@@ -31,22 +29,24 @@ const Petshop = ({ match }) => {
             />
             <b>{petshop.name}</b>
             <div className="petshop-infos">
-            <span className="mdi mdi-star"></span>
+              <span className="mdi mdi-star"></span>
               <text>
-                <b>2,8</b>                
+                <b>2,8</b>
               </text>
-            <span className="mdi mdi-cash-usd-outline"></span>
-            <text>{petshop.categoria}</text>
-            <span className="mdi mdi-crosshairs-gps"></span>
-            <text>2,9km</text>
+              <span className="mdi mdi-cash-usd-outline"></span>
+              <text>{petshop.categoria}</text>
+              <span className="mdi mdi-crosshairs-gps"></span>
+              <text>2,9km</text>
             </div>
             <label className="badge badge-primary">Frete Grátis</label>
           </div>
           <div className="col-10">
             <h5>Produtos</h5>
-            <br/>
+            <br />
             <div className="row">
-              {petshop.products?.map(p => <Product product={p}/>)}
+              {petshop.products?.map((p) => (
+                <Product product={p} />
+              ))}
             </div>
           </div>
         </div>

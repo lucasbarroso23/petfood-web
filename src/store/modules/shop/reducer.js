@@ -11,6 +11,12 @@ const INITIAL_STATE = {
   },
   petshop: {},
   cart: [],
+  transactionFee: 0.1,
+  defaultRecipient: {
+    recipient_id: "re_ckkxes9a109ce0p9teyiexciv",
+    percentage: 10,
+    liable: true,
+  },
 };
 
 function shop(state = INITIAL_STATE, action) {
@@ -47,8 +53,8 @@ function shop(state = INITIAL_STATE, action) {
 
     case types.TOGGLE_CART_PRODUCT: {
       return produce(state, (draft) => {
-        const index = draft.cart.findIndex(p => p._id === action.product._id)
-        if(index !== -1){
+        const index = draft.cart.findIndex((p) => p._id === action.product._id);
+        if (index !== -1) {
           draft.cart.splice(index, 1);
         } else {
           draft.cart.push(action.product);

@@ -9,7 +9,9 @@ import dayjs from "dayjs";
 import "./styles.css";
 
 const Checkout = () => {
-  const { cart } = useSelector((state) => state.shop);
+  const { cart, transactionFee, defaultRecipient } = useSelector(
+    (state) => state.shop
+  );
 
   const total = cart.reduce((total, product) => {
     return total + product.preco;
@@ -40,7 +42,7 @@ const Checkout = () => {
     split_rules: [],
   });
 
-  const setShippingValue = ({ key, value }) => {
+  const setShippingValue = (key, value) => {
     setTransaction({
       ...transaction,
       shipping: {
@@ -58,9 +60,43 @@ const Checkout = () => {
   };
 
   const getSplitRules = () => {
-    const productsByPetshop = _.groupBy(cart, (product) => product.petshop_id);
-    console.log(productsByPetshop);
-    return productsByPetshop;
+    const productsByPetshop = _.groupBy(
+      cart,
+      (product) => product.petshop_id.recipient_id
+    );
+
+    let result = [];
+
+    Object.keys(productsByPetshop).map((petshop) => {
+      const products = productsByPetshop[petshop];
+      const totalValuePerPetshop = products
+        .reduce((total, product) => {
+          return total + product.preco;
+        }, 0)
+        .toFixed(2);
+
+      const totalFee = (totalValuePerPetshop * transactionFee).toFixed(2);
+
+      result.push({
+        recipient_id: products[0].petshop_id.recipient_id,
+        percentage: Math.floor(
+          ((totalValuePerPetshop - totalFee) / total) * 100
+        ),
+        liable: true,
+        charge_processing_fee: true,
+      });
+    });
+
+    const totalPetshopsPercentage = result.reduce((total, recipient) => {
+      return total + parseFloat(recipient.percentage);
+    }, 0);
+
+    result.push({
+      ...defaultRecipient,
+      percentage: 100 - totalPetshopsPercentage,
+    });
+
+    return result;
   };
 
   useEffect(() => {
