@@ -61,3 +61,9 @@ export function setTransaction(transaction) {
     transaction,
   };
 }
+
+export function makePurchase() {
+  return {
+    type: types.MAKE_PURCHASE,
+  };
+}

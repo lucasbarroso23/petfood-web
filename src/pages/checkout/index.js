@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import _ from "underscore";
 
-import { setTransaction as setStoreTransaction } from "../../store/modules/shop/actions";
+import {
+  setTransaction as setStoreTransaction,
+  makePurchase as makePurchaseStore,
+} from "../../store/modules/shop/actions";
 import Header from "../../components/header";
 import Product from "../../components/product/list";
 import dayjs from "dayjs";
@@ -59,6 +62,9 @@ const Checkout = () => {
 
   const makePurchase = () => {
     dispatch(setStoreTransaction(transaction));
+    setTimeout(() => {
+      dispatch(makePurchaseStore());
+    }, 100);
   };
 
   const getSplitRules = () => {
@@ -216,7 +222,7 @@ const Checkout = () => {
             <div className="row mb-3">
               <div className="col-6">
                 <input
-                  type="date"
+                  type="text"
                   placeholder="Validade"
                   className="form-control form-control-lg"
                   onChange={(e) =>
