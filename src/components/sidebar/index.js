@@ -41,7 +41,7 @@ const Sidebar = () => {
             <h3 className="d-inline-block">R$ {total.toFixed(2)}</h3>
           </div>
           <Link
-            to="/checkout"
+            to="/cadastro"
             onClick={() => setOpened(false)}
             className="btn btn-block btn-lg btn-primary rounded-0 h-50 align-items-center"
           >

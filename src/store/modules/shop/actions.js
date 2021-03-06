@@ -54,3 +54,10 @@ export function toggleCartProduct(product) {
     product,
   };
 }
+
+export function setTransaction(transaction) {
+  return {
+    type: types.SET_TRANSACTION,
+    transaction,
+  };
+}

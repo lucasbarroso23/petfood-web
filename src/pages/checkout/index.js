@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import _ from "underscore";
 
+import { setTransaction as setStoreTransaction } from "../../store/modules/shop/actions";
 import Header from "../../components/header";
 import Product from "../../components/product/list";
 import dayjs from "dayjs";
@@ -9,6 +10,7 @@ import dayjs from "dayjs";
 import "./styles.css";
 
 const Checkout = () => {
+  const dispatch = useDispatch();
   const { cart, transactionFee, defaultRecipient } = useSelector(
     (state) => state.shop
   );
@@ -56,7 +58,7 @@ const Checkout = () => {
   };
 
   const makePurchase = () => {
-    console.log(transaction);
+    dispatch(setStoreTransaction(transaction));
   };
 
   const getSplitRules = () => {

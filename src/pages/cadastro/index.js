@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { useDispatch } from 'react-redux';
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import Illustration from "../../assets/illustration.png";
 import Header from "../../components/header";
-import {setCustomer as setStoreCustomer} from '../../store/modules/shop/actions';
+import { setCustomer as setStoreCustomer } from "../../store/modules/shop/actions";
 
 const Cadastro = () => {
-
   const dispatch = useDispatch();
   const [customer, setCustomer] = useState({
     external_id: new Date().getTime().toString(),
@@ -25,7 +25,7 @@ const Cadastro = () => {
 
   const goToCheckout = () => {
     dispatch(setStoreCustomer(customer));
-  }
+  };
 
   return (
     <div className="container-fluid h-100 bg-primary">
@@ -44,7 +44,7 @@ const Cadastro = () => {
               className="form-control from-control-lg mb-3"
               placeholder="Nome completo"
               onChange={(e) => {
-                setCustomer({...customer, name: e.target.value})
+                setCustomer({ ...customer, name: e.target.value });
               }}
             />
             <input
@@ -52,7 +52,7 @@ const Cadastro = () => {
               className="form-control from-control-lg mb-3"
               placeholder="Email"
               onChange={(e) => {
-                setCustomer({...customer, email: e.target.value})
+                setCustomer({ ...customer, email: e.target.value });
               }}
             />
             <input
@@ -60,7 +60,7 @@ const Cadastro = () => {
               className="form-control from-control-lg mb-3"
               placeholder="Telefone"
               onChange={(e) => {
-                setCustomer({...customer, phone_numbers: [e.target.value]})
+                setCustomer({ ...customer, phone_numbers: [e.target.value] });
               }}
             />
             <input
@@ -68,12 +68,15 @@ const Cadastro = () => {
               className="form-control from-control-lg mb-3"
               placeholder="CPF"
               onChange={(e) => {
-                setCustomer({...customer, documents: [
-                  {
-                    type: "cpf",
-                    number: e.target.value,
-                  },
-                ]})
+                setCustomer({
+                  ...customer,
+                  documents: [
+                    {
+                      type: "cpf",
+                      number: e.target.value,
+                    },
+                  ],
+                });
               }}
             />
             <input
@@ -81,12 +84,16 @@ const Cadastro = () => {
               className="form-control from-control-lg mb-3"
               placeholder="Data de nascimento"
               onChange={(e) => {
-                setCustomer({...customer, birthday: e.target.value})
+                setCustomer({ ...customer, birthday: e.target.value });
               }}
             />
-            <button onClick={() => goToCheckout()} className="btn btn-lg btn-block btn-secondary">
+            <Link
+              to="checkout"
+              onClick={() => goToCheckout()}
+              className="btn btn-lg btn-block btn-secondary"
+            >
               Finalizar pedido teste
-            </button>
+            </Link>
           </div>
         </div>
       </div>
